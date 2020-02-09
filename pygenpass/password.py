@@ -19,12 +19,12 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 """
-from datetime import date
+import click  # Used for command line interface
+import diceware  # Used for creating password
+import pyperclip
 
-import click
-import diceware
 from beautifultable import BeautifulTable
-
+from datetime import date
 from pygenpass.database import DatabaseConnection
 
 db_obj = DatabaseConnection()
@@ -96,6 +96,7 @@ def createpass():
     """Used for taking input from user to create password"""
     portal_name = click.prompt("Enter portal name", default="None")
     password = diceware.get_passphrase()
+    pyperclip.copy(password)
     creation_date = date.today()
     email = click.prompt("Enter email id", default="None")
     portal_url = click.prompt("Enter portal url", default="None")
@@ -116,3 +117,10 @@ def showpass():
         print("No records found")
     else:
         print(spass)
+
+
+@click.command("copy", help="Copy password")
+@click.argument("portal_name")
+def copypass(portal_name):
+    password = db_obj.show_data(portal_name)
+    pyperclip.copy(password)

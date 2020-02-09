@@ -22,6 +22,7 @@ SOFTWARE.
 import click
 
 from pygenpass.password import allpass
+from pygenpass.password import copypass
 from pygenpass.password import createpass
 from pygenpass.password import delpass
 from pygenpass.password import modpass
@@ -42,6 +43,7 @@ main.add_command(showpass)
 main.add_command(savepass)
 main.add_command(delpass)
 main.add_command(version)
+main.add_command(copypass)
 
 if __name__ == "__main__":
     main()
